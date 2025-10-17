@@ -1,6 +1,13 @@
+"use client";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Navbar from "../components/Navbar/Page";
+import { Playfair_Display } from "next/font/google";
+// Display serif for hero headline (similar vibe to the reference)
+const displaySerif = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+});
 interface ButtonProps {
   primary?: boolean;
   children: ReactNode;
@@ -110,44 +117,47 @@ const SaorajaLandingPage = () => {
         Skip to content
       </a>
 
-      {/* Hero Section */}
+      {/* Hero Section with background image */}
       <section
         id="main"
         role="main"
         aria-label="Hero"
-        className="px-4 py-8 md:py-16 lg:py-24 max-w-6xl mx-auto flex items-center justify-center min-h-[calc(100vh-76px)]"
+        className="relative min-h-[100svh] sm:min-h-screen flex items-center justify-center"
       >
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="text-center md:text-left">
-            <AnimatedText delay={300}>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 md:mb-6 text-[#1B1B1D]">
-                <span className="block mb-2">Saoraja</span>
-                <TypedText text="Cafe & Resto" />
-              </h1>
-            </AnimatedText>
+        {/* Background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url(/Home/bg.jpg)" }}
+          aria-hidden
+        />
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-black/40" aria-hidden />
 
-            <AnimatedText delay={600}>
-              <p className="text-base md:text-lg mb-4 md:mb-6 text-[#1B1B1D]">
-                Tempat makan dan nongkrong dengan suasana hangat, nyaman, dan
-                instagramable, cocok untuk keluarga, teman, maupun acara
-                komunitas.
-              </p>
-            </AnimatedText>
+        <div className="relative z-10 w-full px-4 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 gap-8 md:gap-12 place-items-center">
+            <div className="text-center text-white">
+              <AnimatedText delay={300}>
+                <h1
+                  className={`${displaySerif.className} text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] font-semibold leading-tight mb-3 sm:mb-4`}
+                >
+                  <span className="block text-5xl sm:text-6xl md:text-7xl">
+                    Saoraja
+                  </span>
+                  <span className="block text-4xl sm:text-5xl md:text-6xl mt-1 text-[#d3ae33]">
+                    Cafe & Resto
+                  </span>
+                </h1>
+              </AnimatedText>
 
-            <AnimatedText delay={1200}>
-              <div className="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
-                <Button primary href="/Landing/Menu" ariaLabel="Open menu list">
-                  List Menu
-                </Button>
-              </div>
-            </AnimatedText>
-          </div>
-
-          <AnimatedText delay={600}>
-            <div className="relative mt-6 md:mt-0">
-              {/* Decorative coffee cup removed */}
+              <AnimatedText delay={600}>
+                <p className="text-base md:text-lg mb-5 text-white/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.35)] max-w-2xl mx-auto">
+                  Tempat makan dan nongkrong dengan suasana hangat, nyaman, dan
+                  instagramable, cocok untuk keluarga, teman, maupun acara
+                  komunitas.
+                </p>
+              </AnimatedText>
             </div>
-          </AnimatedText>
+          </div>
         </div>
       </section>
     </div>

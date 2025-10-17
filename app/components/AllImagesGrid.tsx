@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 type AllImagesGridProps = {
   images: string[];
@@ -15,17 +16,19 @@ export default function AllImagesGrid({ images }: AllImagesGridProps) {
           <button
             key={src + idx}
             onClick={() => setOpen(idx)}
-            className="relative overflow-hidden rounded-lg bg-gray-100 focus:outline-none"
+            className="relative overflow-hidden rounded-lg bg-gray-100 focus:outline-none [content-visibility:auto] [contain-intrinsic-size:300px_400px]"
             aria-label={`Open image ${idx + 1}`}
           >
             {/* Aspect ratio container: 3:4 (width:height = 3:4) */}
-            <div className="w-full" style={{ paddingTop: "133.333%" }}>
-              <img
+            <div className="w-full relative" style={{ paddingTop: "133.333%" }}>
+              <Image
                 src={src}
                 alt={`gallery-${idx + 1}`}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105 rounded-lg"
-                loading="lazy"
-                style={{ position: "absolute", top: 0, left: 0 }}
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                className="absolute inset-0 object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+                loading={idx < 4 ? "eager" : "lazy"}
+                priority={idx < 2}
               />
             </div>
           </button>
@@ -51,6 +54,8 @@ export default function AllImagesGrid({ images }: AllImagesGridProps) {
               src={images[open]}
               alt={`opened-${open + 1}`}
               className="w-full h-auto object-contain rounded-xl shadow-lg"
+              loading="eager"
+              decoding="async"
             />
           </div>
 
