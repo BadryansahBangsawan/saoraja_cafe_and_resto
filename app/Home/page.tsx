@@ -3,42 +3,47 @@ import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Navbar from "../components/Navbar/Page";
 import { Playfair_Display } from "next/font/google";
+import { Button } from "@/components/ui/button";
 // Display serif for hero headline (similar vibe to the reference)
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "600", "700", "800"],
 });
-interface ButtonProps {
+interface CustomButtonProps {
   primary?: boolean;
   children: ReactNode;
   href?: string;
   ariaLabel?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const CustomButton: React.FC<CustomButtonProps> = ({
   primary,
   children,
   href,
   ariaLabel,
 }) => {
-  const className = `px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium rounded-full transition-all duration-300 transform hover:scale-105 ${
-    primary
-      ? "bg-black text-white hover:bg-gray-800"
-      : "bg-white text-black border border-gray-300 hover:bg-gray-100"
-  }`;
-
   if (href) {
     return (
-      <Link href={href} className={className} aria-label={ariaLabel}>
-        {children}
-      </Link>
+      <Button
+        variant={primary ? "default" : "outline"}
+        className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium rounded-full transition-all duration-300 transform hover:scale-105"
+        asChild
+      >
+        <Link href={href} aria-label={ariaLabel}>
+          {children}
+        </Link>
+      </Button>
     );
   }
 
   return (
-    <button type="button" className={className} aria-label={ariaLabel}>
+    <Button
+      variant={primary ? "default" : "outline"}
+      className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium rounded-full transition-all duration-300 transform hover:scale-105"
+      aria-label={ariaLabel}
+    >
       {children}
-    </button>
+    </Button>
   );
 };
 

@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 type AllImagesGridProps = {
   images: string[];
@@ -35,53 +37,91 @@ export default function AllImagesGrid({ images }: AllImagesGridProps) {
         ))}
       </div>
 
-      {open !== null && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
-          role="dialog"
-          aria-modal="true"
-        >
-          <button
-            className="absolute top-6 right-6 text-white text-2xl p-2"
-            onClick={() => setOpen(null)}
-            aria-label="Close image"
-          >
-            ×
-          </button>
+      <Dialog open={open !== null} onOpenChange={() => setOpen(null)}>
+        <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 bg-black/70 border-0">
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div className="max-w-[90vw] max-h-[90vh] p-2">
+              <img
+                src={images[open || 0]}
+                alt={`opened-${(open || 0) + 1}`}
+                className="w-full h-auto object-contain rounded-xl shadow-lg"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
 
-          <div className="max-w-[90vw] max-h-[90vh] p-2">
-            <img
-              src={images[open]}
-              alt={`opened-${open + 1}`}
-              className="w-full h-auto object-contain rounded-xl shadow-lg"
-              loading="eager"
-              decoding="async"
-            />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 text-white hover:bg-white/20"
+              onClick={() => setOpen(null)}
+              aria-label="Close image"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute left-2 text-white hover:bg-white/20"
+              onClick={() =>
+                setOpen((v) =>
+                  v === null ? null : (v - 1 + images.length) % images.length
+                )
+              }
+              aria-label="Previous image"
+            >
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 text-white hover:bg-white/20"
+              onClick={() =>
+                setOpen((v) => (v === null ? null : (v + 1) % images.length))
+              }
+              aria-label="Next image"
+            >
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </Button>
           </div>
-
-          <button
-            className="absolute left-6 text-white text-3xl p-2"
-            onClick={() =>
-              setOpen((v) =>
-                v === null ? null : (v - 1 + images.length) % images.length
-              )
-            }
-            aria-label="Previous image"
-          >
-            ‹
-          </button>
-
-          <button
-            className="absolute right-6 text-white text-3xl p-2"
-            onClick={() =>
-              setOpen((v) => (v === null ? null : (v + 1) % images.length))
-            }
-            aria-label="Next image"
-          >
-            ›
-          </button>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

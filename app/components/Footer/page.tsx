@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
@@ -12,24 +13,21 @@ export default function Footer() {
         </div>
 
         <div className="flex gap-4 items-center">
-          <Link
-            href="/Landing/Menu"
-            className="px-4 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-gray-800"
-          >
-            Menu
-          </Link>
-          <Link
-            href="/Landing/temukan"
-            className="text-sm text-gray-700 hover:underline"
-          >
-            Find Us
-          </Link>
-          <Link
-            href="/Landing/tentang_kami"
-            className="text-sm text-gray-700 hover:underline"
-          >
-            About
-          </Link>
+          <Button asChild>
+            <Link href="/Landing/Menu">
+              Menu
+            </Link>
+          </Button>
+          <Button variant="link" asChild>
+            <Link href="/Landing/temukan">
+              Find Us
+            </Link>
+          </Button>
+          <Button variant="link" asChild>
+            <Link href="/Landing/tentang_kami">
+              About
+            </Link>
+          </Button>
         </div>
 
         <div className="text-sm text-gray-500">

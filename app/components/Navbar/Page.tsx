@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 
 interface NavItemProps {
   text: string;
@@ -61,8 +63,8 @@ const Navbar = () => {
   const navItems = [
     { text: "Home", href: "/" },
     { text: "Menu", href: "/Landing/Menu" },
-    { text: "Tentang Kami", href: "/Landing/Tentang" },
-    { text: "Temukan", href: "/Landing/Temukan" },
+    { text: "Tentang Kami", href: "/Landing/tentang_kami" },
+    { text: "Temukan", href: "/Landing/temukan" },
     { text: "Gallery Saoraja", href: "/Landing/gallery" },
   ];
 
@@ -116,108 +118,42 @@ const Navbar = () => {
 
       {/* Mobile menu button */}
       <div className="md:hidden">
-        <button
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMobileOpen((s) => !s)}
-          className={`p-2 rounded-md ${
-            isTransparent ? "text-white" : "text-[#1B1B1D]"
-          } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d3ae33]`}
-        >
-          <span className="sr-only">Toggle menu</span>
-          {mobileOpen ? (
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={isTransparent ? "text-white hover:text-white/80" : "text-[#1B1B1D] hover:text-[#1B1B1D]/80"}
+              aria-label="Open menu"
             >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          ) : (
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          )}
-        </button>
-      </div>
-
-      {/* Mobile menu overlay + drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              key="backdrop"
-              className="fixed inset-0 bg-black/40 md:hidden z-40"
-              aria-hidden
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={closeMobile}
-            />
-            {/* Drawer */}
-            <motion.aside
-              key="drawer"
-              id="mobile-menu"
-              role="dialog"
-              aria-modal="true"
-              className="fixed top-0 right-0 bottom-0 w-72 max-w-[85%] bg-white md:hidden z-50 shadow-xl p-4 flex flex-col"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold text-[#1B1B1D]">
-                  Menu
-                </span>
-                <button
-                  aria-label="Close menu"
-                  onClick={closeMobile}
-                  className="p-2 rounded-md text-[#1B1B1D] hover:bg-gray-100"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
-              </div>
-              <nav className="flex flex-col">
-                {navItems.map((item) => (
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-72 max-w-[85%]">
+            <SheetHeader>
+              <SheetTitle className="text-[#1B1B1D]">Menu</SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col mt-6">
+              {navItems.map((item, index) => (
+                <div key={item.href}>
                   <Link
-                    key={item.href}
                     href={item.href}
                     onClick={closeMobile}
                     aria-current={pathname === item.href ? "page" : undefined}
-                    className={`px-3 py-3 rounded-md transition-colors ${
+                    className={`px-3 py-3 rounded-md transition-colors block ${
                       pathname === item.href
                         ? "text-[#d3ae33] bg-gray-50 font-semibold"
                         : "text-[#1B1B1D] hover:bg-gray-50"
@@ -225,12 +161,13 @@ const Navbar = () => {
                   >
                     {item.text}
                   </Link>
-                ))}
-              </nav>
-            </motion.aside>
-          </>
-        )}
-      </AnimatePresence>
+                  {index < navItems.length - 1 && <Separator />}
+                </div>
+              ))}
+            </nav>
+          </SheetContent>
+        </Sheet>
+      </div>
     </nav>
   );
 };
