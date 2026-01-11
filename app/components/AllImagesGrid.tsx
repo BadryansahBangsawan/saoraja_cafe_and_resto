@@ -41,12 +41,13 @@ export default function AllImagesGrid({ images }: AllImagesGridProps) {
         <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 bg-black/70 border-0">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="max-w-[90vw] max-h-[90vh] p-2">
-              <img
+              <Image
                 src={images[open || 0]}
                 alt={`opened-${(open || 0) + 1}`}
+                width={1200}
+                height={900}
+                priority
                 className="w-full h-auto object-contain rounded-xl shadow-lg"
-                loading="eager"
-                decoding="async"
               />
             </div>
 

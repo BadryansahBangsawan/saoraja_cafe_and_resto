@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import Navbar from "../../components/Navbar/Page";
 import Footer from "../../components/Footer/page";
 import { Button } from "@/components/ui/button";
@@ -109,9 +110,11 @@ const MenuPage = () => {
                   <Card key={src} className="group hover:shadow-xl transition-all duration-500 border-amber-200 overflow-hidden bg-white/80 backdrop-blur-sm">
                     <CardContent className="p-0">
                       <div className="relative">
-                        <img
+                        <Image
                           src={src}
                           alt={`Menu Halaman ${idx + 1}`}
+                          width={500}
+                          height={700}
                           loading="lazy"
                           className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                         />
@@ -136,7 +139,7 @@ const MenuPage = () => {
                             size="sm"
                             className="border-amber-300 text-amber-700 hover:bg-amber-50"
                             onClick={() => {
-                              const img = new Image();
+                              const img = document.createElement("img") as HTMLImageElement;
                               img.src = src;
                               img.onload = () => {
                                 const win = window.open();
